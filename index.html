@@ -1,0 +1,190 @@
+<html>
+<head>
+	<link rel="stylesheet" href="D:\varteq\repo\hubspot_integration\Marfa.Order\wwwroot\lib\bootstrap\dist\css\bootstrap.min.css">
+
+</head>
+<body>
+	<div class="container">
+
+		<table class="table">
+			<tbody>
+				<tr>
+					<td><b>MSRP</b>:</td>
+					<td colspan="3">$ 7063.63</td>
+				</tr>
+				<tr>
+					<td><b>Buying price</b>:</td>
+					<td colspan="3">$ 2,966.31 (multipliyer: 0.33)</td>
+				</tr>
+				<tr>
+					<td><b>Selling price</b>:</td>
+					<td>$ <input type="number" id="sellPrice" /></td>
+					<td><b>Profit</b>:</td>
+					<td><input type="number" id="profit" /> %</td>
+				</tr>
+				<tr>
+					<td><b>Client discount</b>:</td>
+					<td colspan="3"><input type="number" id="clientDiscount" /> %</td>
+				</tr>
+			</tbody>
+		</table>
+		<br />
+
+		<table class="table">
+			<tbody>
+				<tr>
+					<th>#</th>
+					<th>Legend Id</th>
+					<th>Grain</th>
+					<th>Type</th>
+					<th>Sku</th>
+					<th>Description</th>
+					<th>Qty</th>
+					<th>Unit price</th>
+					<th>Net price</th>
+				</tr>
+
+				<tr>
+					<td colspan="9">
+						<span class="display-6 float-start">Cabinets</span>
+					</td>
+				</tr>
+				<tr>
+					<td>1</td>
+					<td>1</td>
+					<td>Vert</td>
+					<td>Filler/Panel</td>
+					<td>PNL24.9375x100</td>
+					<td>Filler/Panel 24.94 x 100.00 x 0.75</td>
+					<td>1.0</td>
+					<td>$ 1749.09</td>
+					<td>$ 577.20</td>
+				</tr>
+				<tr>
+					<td>2</td>
+					<td>2</td>
+					<td>Vert</td>
+					<td>Tall</td>
+					<td>TP21x99x24</td>
+					<td>Tall Pantry Cabinet 21.00 x 99.00 x 24.00</td>
+					<td>1.0</td>
+					<td>$ 3700.00</td>
+					<td>$ 1221.00</td>
+				</tr>
+				<tr>
+					<td>3</td>
+					<td>3</td>
+					<td>Vert</td>
+					<td>Filler/Panel</td>
+					<td>PNL6x100</td>
+					<td>Filler/Panel 6.00 x 100.00 x 0.75</td>
+					<td>1.0</td>
+					<td>$ 420.83</td>
+					<td>$ 138.87</td>
+				</tr>
+				<tr>
+					<td>4</td>
+					<td>4</td>
+					<td>Vert</td>
+					<td>Filler/Panel</td>
+					<td>PNL3.5x100</td>
+					<td>Filler/Panel 3.50 x 100.00 x 0.75</td>
+					<td>1.0</td>
+					<td>$ 245.49</td>
+					<td>$ 81.01</td>
+				</tr>
+
+				<tr>
+					<td colspan="9">
+						<span class="display-6 float-start">Accessories</span>
+					</td>
+				</tr>
+				<tr>
+					<td>5</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>CONNECTION CORD</td>
+					<td>Connection cord for emotion driver 0.5M</td>
+					<td>1.0</td>
+					<td>$ 5.50</td>
+					<td>$ 5.50</td>
+				</tr>
+				<tr>
+					<td>6</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>18W</td>
+					<td>Mec Driver 18W</td>
+					<td>1.0</td>
+					<td>$ 42.72</td>
+					<td>$ 42.72</td>
+				</tr>
+				<tr>
+					<td colspan="9">
+						<span class="display-6 float-start">User Items</span>
+					</td>
+				</tr>
+				<tr>
+					<td>7</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>USER ITEM</td>
+					<td>Interior EROTs</td>
+					<td>2.0</td>
+					<td>$ 250.00</td>
+					<td>$ 500.00</td>
+				</tr>
+				<tr>
+					<td>8</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td>USER ITEM</td>
+					<td>Bottle Dividers in 2 drawers - linen</td>
+					<td>2.0</td>
+					<td>$ 200.00</td>
+					<td>$ 400.00</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<script>
+		const msrp = 7063.63;
+		const buyPrice = 2966.31;
+
+		const sellPriceInput = document.getElementById("sellPrice");
+		const profitInput = document.getElementById("profit");
+		const clientDiscountInput = document.getElementById("clientDiscount");
+
+		sellPriceInput.addEventListener("input", sellPriceUpdate);
+		profitInput.addEventListener("input", profitUpdate);
+		clientDiscountInput.addEventListener("input", clientDiscountUpdate);
+
+		function sellPriceUpdate(e) {
+			const sellPrice = parseFloat(sellPriceInput.value);
+			const profit = (sellPrice - buyPrice) / buyPrice * 100;
+			profitInput.value = profit.toFixed(2);
+			clientDiscount.value = ((sellPrice / msrp) * 100).toFixed(2);
+		}
+
+		function profitUpdate(e) {
+			const profit = parseFloat(profitInput.value);
+			const sellPrice = (1 + profit / 100) * buyPrice;
+			sellPriceInput.value = sellPrice.toFixed(2);
+			clientDiscount.value = ((sellPrice / msrp) * 100).toFixed(2);
+		}
+
+		function clientDiscountUpdate(e) {
+			const clientDiscount = parseFloat(clientDiscountInput.value);
+			const sellPrice = msrp * (1 - clientDiscount / 100);
+			const profit = (sellPrice - buyPrice) / buyPrice * 100;
+			sellPriceInput.value = sellPrice.toFixed(2);
+			profitInput.value = profit.toFixed(2);
+		}
+	</script>
+</body>
+</html>
