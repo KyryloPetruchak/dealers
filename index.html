@@ -168,14 +168,14 @@
 			const sellPrice = parseFloat(sellPriceInput.value);
 			const profit = (sellPrice - buyPrice) / buyPrice * 100;
 			profitInput.value = profit.toFixed(2);
-			clientDiscount.value = ((sellPrice / msrp) * 100).toFixed(2);
+			clientDiscount.value = ((1 - sellPrice / msrp) * 100).toFixed(2);
 		}
 
 		function profitUpdate(e) {
 			const profit = parseFloat(profitInput.value);
 			const sellPrice = (1 + profit / 100) * buyPrice;
 			sellPriceInput.value = sellPrice.toFixed(2);
-			clientDiscount.value = ((sellPrice / msrp) * 100).toFixed(2);
+			clientDiscount.value = ((1 - sellPrice / msrp) * 100).toFixed(2);
 		}
 
 		function clientDiscountUpdate(e) {
