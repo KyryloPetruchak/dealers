@@ -19,12 +19,14 @@
 				<tr>
 					<td><b>Selling price</b>:</td>
 					<td>$ <input type="number" id="sellPrice" /></td>
-					<td><b>Profit</b>:</td>
-					<td><input type="number" id="profit" /> %</td>
+					<td><b>Profit %</b>:</td>
+					<td><input type="number" id="profitPercent" /></td>
 				</tr>
 				<tr>
 					<td><b>Client discount</b>:</td>
-					<td colspan="3"><input type="number" id="clientDiscount" /> %</td>
+					<td><input type="number" id="clientDiscount" /> %</td>
+					<td><b>Profit $</b>:</td>
+					<td>$ <span id="profitUsd"></span></td>
 				</tr>
 			</tbody>
 		</table>
@@ -157,33 +159,37 @@
 		const buyPrice = 2966.31;
 
 		const sellPriceInput = document.getElementById("sellPrice");
-		const profitInput = document.getElementById("profit");
+		const profitPercentInput = document.getElementById("profitPercent");
+		const profitUsdSpan = document.getElementById("profitUsd");
 		const clientDiscountInput = document.getElementById("clientDiscount");
 
 		sellPriceInput.addEventListener("input", sellPriceUpdate);
-		profitInput.addEventListener("input", profitUpdate);
+		profitPercentInput.addEventListener("input", profitPercentUpdate);
 		clientDiscountInput.addEventListener("input", clientDiscountUpdate);
 
 		function sellPriceUpdate(e) {
 			const sellPrice = parseFloat(sellPriceInput.value);
-			const profit = (sellPrice - buyPrice) / buyPrice * 100;
-			profitInput.value = profit.toFixed(2);
+			const profitPercent = (sellPrice - buyPrice) / buyPrice * 100;
+			profitPercentInput.value = profitPercent.toFixed(2);
 			clientDiscount.value = ((1 - sellPrice / msrp) * 100).toFixed(2);
+			profitUsdSpan.innerText = (sellPrice - buyPrice).toFixed(2);
 		}
 
-		function profitUpdate(e) {
-			const profit = parseFloat(profitInput.value);
-			const sellPrice = (1 + profit / 100) * buyPrice;
+		function profitPercentUpdate(e) {
+			const profitPercent = parseFloat(profitPercentInput.value);
+			const sellPrice = (1 + profitPercent / 100) * buyPrice;
 			sellPriceInput.value = sellPrice.toFixed(2);
 			clientDiscount.value = ((1 - sellPrice / msrp) * 100).toFixed(2);
+			profitUsdSpan.innerText = (sellPrice - buyPrice).toFixed(2);
 		}
 
 		function clientDiscountUpdate(e) {
 			const clientDiscount = parseFloat(clientDiscountInput.value);
 			const sellPrice = msrp * (1 - clientDiscount / 100);
-			const profit = (sellPrice - buyPrice) / buyPrice * 100;
+			const profitPercent = (sellPrice - buyPrice) / buyPrice * 100;
 			sellPriceInput.value = sellPrice.toFixed(2);
-			profitInput.value = profit.toFixed(2);
+			profitPercentInput.value = profitPercent.toFixed(2);
+			profitUsdSpan.innerText = (sellPrice - buyPrice).toFixed(2);
 		}
 	</script>
 </body>
